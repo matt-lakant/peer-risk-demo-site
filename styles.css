@@ -256,7 +256,7 @@ body {
 .chart-card canvas {
   width: 100%;
   max-width: 100%;
-  height: auto;
+  height: 140px;
   display: block;
 }
 

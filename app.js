@@ -130,15 +130,54 @@
     if (!canvas || !data || data.length === 0) return;
     var ctx = canvas.getContext("2d");
     if (!ctx) return;
-    var w = canvas.width;
-    var h = canvas.height;
-    var padding = { top: 10, right: 10, bottom: 20, left: 35 };
+
+    var dpr = window.devicePixelRatio || 1;
+    var displayW = canvas.clientWidth || 400;
+    var displayH = canvas.clientHeight || 140;
+    canvas.width = displayW * dpr;
+    canvas.height = displayH * dpr;
+    ctx.scale(dpr, dpr);
+
+    var w = displayW;
+    var h = displayH;
+    var padding = { top: 12, right: 12, bottom: 28, left: 42 };
     var chartW = w - padding.left - padding.right;
     var chartH = h - padding.top - padding.bottom;
     var min = Math.min.apply(null, data);
     var max = Math.max.apply(null, data);
     var range = max - min || 1;
+
     ctx.clearRect(0, 0, w, h);
+
+    ctx.fillStyle = "#8b949e";
+    ctx.font = "11px system-ui, sans-serif";
+    ctx.textAlign = "right";
+    ctx.textBaseline = "middle";
+
+    var decimals = range < 0.1 ? 2 : (range < 1 ? 1 : 0);
+    var yTicks = [min, min + range * 0.5, max];
+    yTicks.forEach(function (val) {
+      var y = padding.top + chartH - ((val - min) / range) * chartH;
+      ctx.fillText(val.toFixed(decimals), padding.left - 6, y);
+    });
+
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+    var xLabels = ["T-30", "T-15", "T"];
+    var xPositions = [0, 0.5, 1];
+    xPositions.forEach(function (t, i) {
+      var x = padding.left + t * chartW;
+      ctx.fillText(xLabels[i], x, padding.top + chartH + 6);
+    });
+
+    ctx.strokeStyle = "#30363d";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(padding.left, padding.top);
+    ctx.lineTo(padding.left, padding.top + chartH);
+    ctx.lineTo(padding.left + chartW, padding.top + chartH);
+    ctx.stroke();
+
     ctx.strokeStyle = color || "#58a6ff";
     ctx.lineWidth = 2;
     ctx.beginPath();

@@ -182,6 +182,13 @@
     var psiMax = Math.max.apply(null, psiVals);
     var yMin = Math.min.apply(null, yVals);
     var yMax = Math.max.apply(null, yVals);
+    var axisPad = 0.08;
+    var psiPad = Math.max(0.05, (psiMax - psiMin) * axisPad);
+    var yPad = Math.max(1, (yMax - yMin) * axisPad);
+    psiMin = Math.max(-1, psiMin - psiPad);
+    psiMax = Math.min(1, psiMax + psiPad);
+    yMin -= yPad;
+    yMax += yPad;
     var psiRange = psiMax - psiMin || 0.1;
     var yRange = yMax - yMin || 1;
     var aumVals = portfolios.map(function (p) { return p.aum != null ? p.aum : 0; });

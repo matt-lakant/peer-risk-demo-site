@@ -7,106 +7,133 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="app">
-    <aside class="sidebar">
-      <div class="sidebar-brand">
-        <h1 class="product-name">Peer Risk Observatory</h1>
-        <p class="tagline">Portfolio crowding & peer risk diagnostics</p>
-      </div>
-      <div class="sidebar-controls">
-        <label for="portfolioSelect">Portfolio</label>
-        <select id="portfolioSelect" aria-label="Select portfolio"></select>
-        <div class="confidence-section">
+  <header class="header">
+    <h1 class="product-name">Peer Risk Observatory</h1>
+    <p class="tagline">Portfolio crowding & peer risk diagnostics</p>
+  </header>
+
+  <main class="main">
+    <div class="main-grid">
+      <header class="main-grid-header">
+        <h2>Portfolios</h2>
+        <div class="filters">
+          <div class="filter-group">
+            <label for="filterConfidence">Confidence</label>
+            <select id="filterConfidence">
+              <option value="">All</option>
+              <option value="Internal">Internal</option>
+              <option value="Directional">Directional</option>
+              <option value="Robust">Robust</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="filterAssetClass">Asset Class</label>
+            <select id="filterAssetClass">
+              <option value="">All</option>
+              <option value="Equity">Equity</option>
+              <option value="Fixed Income">Fixed Income</option>
+              <option value="Multi-Asset">Multi-Asset</option>
+              <option value="Credit">Credit</option>
+              <option value="Alternatives">Alternatives</option>
+            </select>
+          </div>
+        </div>
+      </header>
+      <section class="portfolio-list-section">
+        <div class="list-panel">
+          <div class="table-wrap">
+            <table class="portfolio-table" id="portfolioTable">
+              <thead>
+                <tr>
+                  <th data-sort="name">Name</th>
+                  <th data-sort="confidence">Confidence</th>
+                  <th data-sort="assetClass">Asset Class</th>
+                  <th data-sort="aum">AUM</th>
+                  <th data-sort="crowdingScore">Crowding Score</th>
+                  <th data-sort="psi">PSI</th>
+                  <th data-sort="peerOverlapRatio">Peer Overlap %</th>
+                  <th data-sort="crowdingMomentum30d">Momentum (30d)</th>
+                </tr>
+              </thead>
+              <tbody id="portfolioTableBody"></tbody>
+            </table>
+          </div>
+          <p class="list-hint">Click a portfolio to view its dashboard.</p>
+        </div>
+      </section>
+
+      <section class="dashboard-section" id="dashboardSection">
+      <div class="dashboard-header">
+        <h2 id="selectedPortfolioName">Select a portfolio</h2>
+        <div class="dashboard-badges">
           <span id="confidenceBadge" class="badge badge-neutral">—</span>
           <span id="dataLag" class="meta">Data Lag: T+3</span>
           <span id="granularity" class="meta">Granularity: Daily</span>
         </div>
       </div>
-    </aside>
 
-    <main class="main">
-      <section class="kpi-row">
-        <article class="kpi-card" id="kpiCrowding">
-          <div class="kpi-header">
-            <h2>Crowding Score</h2>
-            <button type="button" class="info-btn" id="tooltipCrowding" aria-label="Info">i</button>
-          </div>
-          <div class="kpi-value" id="crowdingScore">—</div>
-          <div class="kpi-interpretation" id="crowdingInterpretation">—</div>
-        </article>
-        <article class="kpi-card" id="kpiPsi">
-          <div class="kpi-header">
-            <h2>PSI</h2>
-            <button type="button" class="info-btn" id="tooltipPsi" aria-label="Info">i</button>
-          </div>
-          <div class="kpi-value" id="psiValue">—</div>
-          <p class="kpi-range">Range: [-1, 1]</p>
-        </article>
-        <article class="kpi-card" id="kpiOverlap">
-          <div class="kpi-header">
-            <h2>Peer Overlap Ratio</h2>
-            <button type="button" class="info-btn" id="tooltipOverlap" aria-label="Info">i</button>
-          </div>
-          <div class="kpi-value" id="peerOverlapValue">—</div>
-          <p class="kpi-range">%</p>
-        </article>
-        <article class="kpi-card" id="kpiMomentum">
-          <div class="kpi-header">
-            <h2>Crowding Momentum (30d)</h2>
-            <button type="button" class="info-btn" id="tooltipMomentum" aria-label="Info">i</button>
-          </div>
-          <div class="kpi-value kpi-momentum" id="crowdingMomentumValue">—</div>
-        </article>
-      </section>
+      <div class="dashboard-content" id="dashboardContent">
+        <section class="charts-row">
+          <article class="chart-card">
+            <h3>Crowding Score (30d)</h3>
+            <canvas id="chartCrowding" width="400" height="120"></canvas>
+          </article>
+          <article class="chart-card">
+            <h3>PSI (30d)</h3>
+            <canvas id="chartPsi" width="400" height="120"></canvas>
+          </article>
+        </section>
 
-      <section class="charts-row">
-        <article class="chart-card">
-          <h3>Crowding Score (30d)</h3>
-          <canvas id="chartCrowding" width="400" height="120"></canvas>
-        </article>
-        <article class="chart-card">
-          <h3>PSI (30d)</h3>
-          <canvas id="chartPsi" width="400" height="120"></canvas>
-        </article>
-      </section>
+        <section class="content-row">
+          <article class="table-card">
+            <div class="table-header">
+              <h3>Top 5 Crowded Factors</h3>
+              <button type="button" class="info-btn" id="tooltipFactorCrowding" aria-label="Info">i</button>
+            </div>
+            <div id="factorTable" class="factor-table"></div>
+          </article>
+          <article class="dispersion-card">
+            <div class="table-header">
+              <h3>Peer Dispersion Snapshot</h3>
+              <button type="button" class="info-btn" id="tooltipDispersion" aria-label="Info">i</button>
+            </div>
+            <div id="dispersionList" class="dispersion-list"></div>
+          </article>
+        </section>
 
-      <section class="content-row">
-        <article class="table-card">
-          <div class="table-header">
-            <h3>Top 5 Crowded Factors</h3>
-            <button type="button" class="info-btn" id="tooltipFactorCrowding" aria-label="Info">i</button>
+        <section class="how-it-works">
+          <button type="button" class="collapsible-trigger" id="howItWorksTrigger" aria-expanded="false">
+            How it works
+          </button>
+          <div class="collapsible-content" id="howItWorksContent">
+            <ul>
+              <li>Post-trade, aggregated exposures only — no holdings, no trade intent</li>
+              <li>Exposures mapped into canonical 15-bucket exposure vector</li>
+              <li>Metrics are derived and auditable</li>
+              <li>Confidence depends on cohort size (N)</li>
+              <li>N=1: Internal diagnostic; N=3–5: Directional; N≥8: Robust</li>
+            </ul>
+            <div class="buckets">
+              <strong>Canonical 15 buckets:</strong>
+              <span>Value, Momentum, Quality, Low Vol, Size, Duration, Credit, Carry, FX, Commodity, Sector 1–5</span>
+            </div>
           </div>
-          <div id="factorTable" class="factor-table"></div>
-        </article>
-        <article class="dispersion-card">
-          <div class="table-header">
-            <h3>Peer Dispersion Snapshot</h3>
-            <button type="button" class="info-btn" id="tooltipDispersion" aria-label="Info">i</button>
-          </div>
-          <div id="dispersionList" class="dispersion-list"></div>
-        </article>
-      </section>
+        </section>
+      </div>
+    </section>
 
-      <section class="how-it-works">
-        <button type="button" class="collapsible-trigger" id="howItWorksTrigger" aria-expanded="false">
-          How it works
-        </button>
-        <div class="collapsible-content" id="howItWorksContent">
-          <ul>
-            <li>Post-trade, aggregated exposures only — no holdings, no trade intent</li>
-            <li>Exposures mapped into canonical 15-bucket exposure vector</li>
-            <li>Metrics are derived and auditable</li>
-            <li>Confidence depends on cohort size (N)</li>
-            <li>N=1: Internal diagnostic; N=3–5: Directional; N≥8: Robust</li>
-          </ul>
-          <div class="buckets">
-            <strong>Canonical 15 buckets:</strong>
-            <span>Value, Momentum, Quality, Low Vol, Size, Duration, Credit, Carry, FX, Commodity, Sector 1–5</span>
-          </div>
+      <div class="chart-panel charts-row-bottom">
+        <div class="scatter-card">
+          <h3>PSI vs Crowding Score <span class="chart-legend">(bubble = AUM)</span></h3>
+          <canvas id="scatterChart" width="400" height="200"></canvas>
         </div>
-      </section>
-    </main>
-  </div>
+        <div class="scatter-card">
+          <h3>PSI vs Crowding Momentum <span class="chart-legend">(bubble = AUM)</span></h3>
+          <canvas id="scatterChart2" width="400" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+  </main>
 
   <div id="tooltip" class="tooltip" role="tooltip" aria-hidden="true"></div>
 

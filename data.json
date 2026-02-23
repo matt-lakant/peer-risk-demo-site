@@ -1,36 +1,72 @@
 {
   "portfolios": [
     {
-      "id": "internal",
-      "name": "Internal Multi-Asset",
+      "id": "int-eq-1",
+      "name": "European Equity Growth",
       "cohortSize": 1,
+      "confidence": "Internal",
+      "assetClass": "Equity",
+      "aum": 320,
       "confidenceLabel": "Internal",
       "kpis": {
-        "crowdingScore": 42,
-        "psi": 0.31,
+        "crowdingScore": 38,
+        "psi": 0.28,
         "peerOverlapRatio": 0,
-        "crowdingMomentum30d": -2.1
+        "crowdingMomentum30d": -1.2
       },
       "crowdingInterpretation": "Differentiated",
       "factorsTop5": [
-        { "name": "Value", "percentile": 28 },
-        { "name": "Duration", "percentile": 35 },
-        { "name": "Low Vol", "percentile": 41 },
+        { "name": "Momentum", "percentile": 35 },
+        { "name": "Quality", "percentile": 42 },
+        { "name": "Value", "percentile": 48 },
+        { "name": "Low Vol", "percentile": 52 },
+        { "name": "Size", "percentile": 58 }
+      ],
+      "dispersionSnapshot": [
+        { "factor": "Momentum", "dispersionIndex": 0.48 },
+        { "factor": "Quality", "dispersionIndex": 0.44 },
+        { "factor": "Value", "dispersionIndex": 0.51 }
+      ],
+      "trendCrowding": [39, 38.8, 38.5, 38.2, 38.5, 38.8, 39, 38.6, 38.3, 38.5, 38.7, 38.4, 38.2, 38.5, 38.8, 38.5, 38.3, 38.6, 38.9, 38.6, 38.4, 38.6, 38.8, 38.5, 38.3, 38.5, 38.7, 38.4, 38.2, 38],
+      "trendPsi": [0.29, 0.288, 0.286, 0.284, 0.286, 0.288, 0.29, 0.287, 0.285, 0.287, 0.289, 0.286, 0.284, 0.286, 0.288, 0.285, 0.283, 0.285, 0.287, 0.284, 0.282, 0.284, 0.286, 0.283, 0.281, 0.283, 0.285, 0.282, 0.28, 0.28]
+    },
+    {
+      "id": "int-ma-1",
+      "name": "Global Multi-Asset Balanced",
+      "cohortSize": 1,
+      "confidence": "Internal",
+      "assetClass": "Multi-Asset",
+      "aum": 580,
+      "confidenceLabel": "Internal",
+      "kpis": {
+        "crowdingScore": 45,
+        "psi": 0.34,
+        "peerOverlapRatio": 0,
+        "crowdingMomentum30d": 0.8
+      },
+      "crowdingInterpretation": "Typical",
+      "factorsTop5": [
+        { "name": "Duration", "percentile": 32 },
+        { "name": "Value", "percentile": 38 },
+        { "name": "Low Vol", "percentile": 45 },
         { "name": "Momentum", "percentile": 52 },
         { "name": "Quality", "percentile": 58 }
       ],
       "dispersionSnapshot": [
-        { "factor": "Value", "dispersionIndex": 0.42 },
-        { "factor": "Duration", "dispersionIndex": 0.38 },
-        { "factor": "Momentum", "dispersionIndex": 0.51 }
+        { "factor": "Duration", "dispersionIndex": 0.42 },
+        { "factor": "Value", "dispersionIndex": 0.38 },
+        { "factor": "Momentum", "dispersionIndex": 0.48 }
       ],
-      "trendCrowding": [38, 38.6, 39.2, 39.8, 40.2, 40.6, 41, 41.5, 42, 41.6, 41.2, 40.8, 41, 41.3, 41.6, 41.9, 42.2, 42, 41.7, 41.9, 42.1, 42, 41.8, 42, 42.2, 42, 41.7, 41.9, 42.1, 42],
-      "trendPsi": [0.28, 0.285, 0.29, 0.295, 0.30, 0.305, 0.31, 0.308, 0.305, 0.302, 0.30, 0.302, 0.304, 0.306, 0.308, 0.31, 0.308, 0.306, 0.307, 0.308, 0.31, 0.308, 0.306, 0.308, 0.31, 0.308, 0.306, 0.308, 0.31, 0.31]
+      "trendCrowding": [44, 44.3, 44.6, 44.8, 45, 44.7, 44.5, 44.8, 45, 44.6, 44.3, 44.6, 44.9, 45, 44.7, 44.5, 44.8, 45, 44.6, 44.4, 44.6, 44.9, 45, 44.7, 44.5, 44.7, 45, 44.6, 44.4, 45],
+      "trendPsi": [0.33, 0.332, 0.334, 0.336, 0.338, 0.336, 0.334, 0.336, 0.338, 0.34, 0.338, 0.336, 0.338, 0.34, 0.342, 0.34, 0.338, 0.34, 0.342, 0.34, 0.338, 0.34, 0.342, 0.34, 0.338, 0.34, 0.342, 0.34, 0.338, 0.34]
     },
     {
-      "id": "french",
+      "id": "dir-eq-1",
       "name": "French Equity Core",
       "cohortSize": 4,
+      "confidence": "Directional",
+      "assetClass": "Equity",
+      "aum": 1200,
       "confidenceLabel": "Directional",
       "kpis": {
         "crowdingScore": 58,
@@ -55,9 +91,132 @@
       "trendPsi": [0.58, 0.585, 0.59, 0.595, 0.60, 0.605, 0.61, 0.615, 0.62, 0.625, 0.63, 0.635, 0.64, 0.645, 0.65, 0.655, 0.66, 0.665, 0.67, 0.668, 0.665, 0.662, 0.665, 0.668, 0.67, 0.668, 0.665, 0.668, 0.67, 0.67]
     },
     {
-      "id": "euro",
-      "name": "Euro Credit Total Return",
+      "id": "dir-eq-2",
+      "name": "US Large Cap Value",
+      "cohortSize": 4,
+      "confidence": "Directional",
+      "assetClass": "Equity",
+      "aum": 2400,
+      "confidenceLabel": "Directional",
+      "kpis": {
+        "crowdingScore": 52,
+        "psi": 0.61,
+        "peerOverlapRatio": 28,
+        "crowdingMomentum30d": -2.4
+      },
+      "crowdingInterpretation": "Typical",
+      "factorsTop5": [
+        { "name": "Value", "percentile": 85 },
+        { "name": "Quality", "percentile": 72 },
+        { "name": "Low Vol", "percentile": 68 },
+        { "name": "Momentum", "percentile": 55 },
+        { "name": "Size", "percentile": 48 }
+      ],
+      "dispersionSnapshot": [
+        { "factor": "Value", "dispersionIndex": 0.25 },
+        { "factor": "Quality", "dispersionIndex": 0.31 },
+        { "factor": "Low Vol", "dispersionIndex": 0.35 }
+      ],
+      "trendCrowding": [54, 53.6, 53.2, 52.8, 52.4, 52.8, 53.2, 52.8, 52.4, 52.6, 52.8, 52.4, 52, 52.4, 52.8, 52.4, 52, 52.3, 52.6, 52.2, 51.8, 52.2, 52.6, 52.2, 51.8, 52, 52.3, 52.6, 52.2, 52],
+      "trendPsi": [0.63, 0.628, 0.626, 0.624, 0.622, 0.624, 0.626, 0.624, 0.622, 0.62, 0.618, 0.62, 0.622, 0.62, 0.618, 0.62, 0.622, 0.62, 0.618, 0.62, 0.622, 0.62, 0.618, 0.62, 0.622, 0.62, 0.618, 0.62, 0.622, 0.61]
+    },
+    {
+      "id": "dir-fi-1",
+      "name": "Euro Government Bonds",
+      "cohortSize": 3,
+      "confidence": "Directional",
+      "assetClass": "Fixed Income",
+      "aum": 890,
+      "confidenceLabel": "Directional",
+      "kpis": {
+        "crowdingScore": 48,
+        "psi": 0.55,
+        "peerOverlapRatio": 22,
+        "crowdingMomentum30d": 3.1
+      },
+      "crowdingInterpretation": "Typical",
+      "factorsTop5": [
+        { "name": "Duration", "percentile": 78 },
+        { "name": "Carry", "percentile": 65 },
+        { "name": "Credit", "percentile": 52 },
+        { "name": "Value", "percentile": 45 },
+        { "name": "Momentum", "percentile": 38 }
+      ],
+      "dispersionSnapshot": [
+        { "factor": "Duration", "dispersionIndex": 0.28 },
+        { "factor": "Carry", "dispersionIndex": 0.35 },
+        { "factor": "Credit", "dispersionIndex": 0.42 }
+      ],
+      "trendCrowding": [45, 45.4, 45.8, 46.2, 46.6, 47, 47.4, 47.8, 48, 47.6, 47.2, 47.6, 48, 47.6, 47.2, 47.6, 48, 47.6, 47.2, 47.5, 47.8, 48, 47.6, 47.2, 47.5, 47.8, 48, 47.6, 47.3, 48],
+      "trendPsi": [0.52, 0.524, 0.528, 0.532, 0.536, 0.54, 0.544, 0.548, 0.552, 0.548, 0.544, 0.548, 0.552, 0.556, 0.55, 0.546, 0.55, 0.554, 0.55, 0.546, 0.55, 0.554, 0.55, 0.546, 0.55, 0.554, 0.55, 0.546, 0.55, 0.55]
+    },
+    {
+      "id": "dir-cr-1",
+      "name": "Euro IG Corporate",
+      "cohortSize": 5,
+      "confidence": "Directional",
+      "assetClass": "Credit",
+      "aum": 1560,
+      "confidenceLabel": "Directional",
+      "kpis": {
+        "crowdingScore": 62,
+        "psi": 0.71,
+        "peerOverlapRatio": 41,
+        "crowdingMomentum30d": 4.8
+      },
+      "crowdingInterpretation": "Typical",
+      "factorsTop5": [
+        { "name": "Credit", "percentile": 88 },
+        { "name": "Duration", "percentile": 82 },
+        { "name": "Carry", "percentile": 75 },
+        { "name": "Value", "percentile": 68 },
+        { "name": "Momentum", "percentile": 62 }
+      ],
+      "dispersionSnapshot": [
+        { "factor": "Credit", "dispersionIndex": 0.2 },
+        { "factor": "Duration", "dispersionIndex": 0.26 },
+        { "factor": "Carry", "dispersionIndex": 0.32 }
+      ],
+      "trendCrowding": [52, 52.8, 53.6, 54.4, 55.2, 56, 56.8, 57.6, 58.4, 59.2, 60, 60.6, 61.2, 61.8, 62, 61.6, 61.2, 61.6, 62, 61.6, 61.2, 61.6, 62, 61.6, 61.2, 61.5, 61.8, 62, 61.6, 62],
+      "trendPsi": [0.65, 0.656, 0.662, 0.668, 0.674, 0.68, 0.686, 0.692, 0.698, 0.704, 0.71, 0.708, 0.706, 0.704, 0.71, 0.708, 0.706, 0.708, 0.71, 0.708, 0.706, 0.708, 0.71, 0.708, 0.706, 0.708, 0.71, 0.708, 0.706, 0.71]
+    },
+    {
+      "id": "dir-ma-1",
+      "name": "Tactical Asset Allocation",
+      "cohortSize": 4,
+      "confidence": "Directional",
+      "assetClass": "Multi-Asset",
+      "aum": 2100,
+      "confidenceLabel": "Directional",
+      "kpis": {
+        "crowdingScore": 55,
+        "psi": 0.64,
+        "peerOverlapRatio": 31,
+        "crowdingMomentum30d": -1.5
+      },
+      "crowdingInterpretation": "Typical",
+      "factorsTop5": [
+        { "name": "Momentum", "percentile": 82 },
+        { "name": "Value", "percentile": 74 },
+        { "name": "Duration", "percentile": 68 },
+        { "name": "Low Vol", "percentile": 61 },
+        { "name": "Quality", "percentile": 55 }
+      ],
+      "dispersionSnapshot": [
+        { "factor": "Momentum", "dispersionIndex": 0.26 },
+        { "factor": "Value", "dispersionIndex": 0.32 },
+        { "factor": "Duration", "dispersionIndex": 0.38 }
+      ],
+      "trendCrowding": [56, 55.6, 55.2, 54.8, 54.4, 54.8, 55.2, 54.8, 54.4, 54.6, 54.8, 54.4, 54, 54.4, 54.8, 55, 54.6, 54.2, 54.6, 55, 54.6, 54.2, 54.5, 54.8, 55, 54.6, 54.2, 54.5, 54.8, 55],
+      "trendPsi": [0.65, 0.646, 0.642, 0.638, 0.634, 0.638, 0.642, 0.638, 0.634, 0.64, 0.646, 0.642, 0.638, 0.642, 0.646, 0.64, 0.634, 0.638, 0.642, 0.638, 0.634, 0.638, 0.642, 0.638, 0.634, 0.638, 0.642, 0.638, 0.634, 0.64]
+    },
+    {
+      "id": "rob-eq-1",
+      "name": "European Equity Momentum",
       "cohortSize": 11,
+      "confidence": "Robust",
+      "assetClass": "Equity",
+      "aum": 4500,
       "confidenceLabel": "Robust",
       "kpis": {
         "crowdingScore": 84,
@@ -80,6 +239,156 @@
       ],
       "trendCrowding": [72, 72.6, 73.2, 73.8, 74.4, 75, 75.6, 76.2, 76.8, 77.4, 78, 78.5, 79, 79.5, 80, 80.5, 81, 81.5, 82, 82.5, 83, 83.5, 84, 83.6, 83.2, 82.8, 83, 83.3, 83.6, 84],
       "trendPsi": [0.82, 0.825, 0.83, 0.835, 0.84, 0.845, 0.85, 0.855, 0.86, 0.865, 0.87, 0.875, 0.88, 0.885, 0.89, 0.888, 0.885, 0.882, 0.885, 0.888, 0.89, 0.888, 0.885, 0.888, 0.89, 0.888, 0.885, 0.888, 0.89, 0.89]
+    },
+    {
+      "id": "rob-eq-2",
+      "name": "Global Equity Low Vol",
+      "cohortSize": 9,
+      "confidence": "Robust",
+      "assetClass": "Equity",
+      "aum": 3200,
+      "confidenceLabel": "Robust",
+      "kpis": {
+        "crowdingScore": 78,
+        "psi": 0.85,
+        "peerOverlapRatio": 65,
+        "crowdingMomentum30d": 6.2
+      },
+      "crowdingInterpretation": "Highly crowded",
+      "factorsTop5": [
+        { "name": "Low Vol", "percentile": 95 },
+        { "name": "Quality", "percentile": 88 },
+        { "name": "Momentum", "percentile": 82 },
+        { "name": "Value", "percentile": 75 },
+        { "name": "Size", "percentile": 68 }
+      ],
+      "dispersionSnapshot": [
+        { "factor": "Low Vol", "dispersionIndex": 0.14 },
+        { "factor": "Quality", "dispersionIndex": 0.2 },
+        { "factor": "Momentum", "dispersionIndex": 0.26 }
+      ],
+      "trendCrowding": [68, 68.8, 69.6, 70.4, 71.2, 72, 72.8, 73.6, 74.4, 75.2, 76, 76.5, 77, 77.5, 78, 77.6, 77.2, 76.8, 77.2, 77.6, 78, 77.6, 77.2, 77.5, 77.8, 78, 77.6, 77.2, 77.5, 78],
+      "trendPsi": [0.78, 0.785, 0.79, 0.795, 0.8, 0.805, 0.81, 0.815, 0.82, 0.825, 0.83, 0.835, 0.84, 0.845, 0.85, 0.848, 0.845, 0.842, 0.845, 0.848, 0.85, 0.848, 0.845, 0.848, 0.85, 0.848, 0.845, 0.848, 0.85, 0.85]
+    },
+    {
+      "id": "rob-fi-1",
+      "name": "Global Aggregate Bonds",
+      "cohortSize": 10,
+      "confidence": "Robust",
+      "assetClass": "Fixed Income",
+      "aum": 2800,
+      "confidenceLabel": "Robust",
+      "kpis": {
+        "crowdingScore": 72,
+        "psi": 0.82,
+        "peerOverlapRatio": 58,
+        "crowdingMomentum30d": 4.5
+      },
+      "crowdingInterpretation": "Typical",
+      "factorsTop5": [
+        { "name": "Duration", "percentile": 92 },
+        { "name": "Carry", "percentile": 85 },
+        { "name": "Credit", "percentile": 78 },
+        { "name": "Value", "percentile": 71 },
+        { "name": "Momentum", "percentile": 64 }
+      ],
+      "dispersionSnapshot": [
+        { "factor": "Duration", "dispersionIndex": 0.16 },
+        { "factor": "Carry", "dispersionIndex": 0.22 },
+        { "factor": "Credit", "dispersionIndex": 0.28 }
+      ],
+      "trendCrowding": [64, 64.6, 65.2, 65.8, 66.4, 67, 67.6, 68.2, 68.8, 69.4, 70, 70.5, 71, 71.5, 72, 71.6, 71.2, 70.8, 71.2, 71.6, 72, 71.6, 71.2, 71.5, 71.8, 72, 71.6, 71.2, 71.5, 72],
+      "trendPsi": [0.76, 0.765, 0.77, 0.775, 0.78, 0.785, 0.79, 0.795, 0.8, 0.805, 0.81, 0.815, 0.82, 0.818, 0.815, 0.812, 0.815, 0.818, 0.82, 0.818, 0.815, 0.818, 0.82, 0.818, 0.815, 0.818, 0.82, 0.818, 0.815, 0.82]
+    },
+    {
+      "id": "rob-cr-1",
+      "name": "US High Yield",
+      "cohortSize": 8,
+      "confidence": "Robust",
+      "assetClass": "Credit",
+      "aum": 1900,
+      "confidenceLabel": "Robust",
+      "kpis": {
+        "crowdingScore": 76,
+        "psi": 0.84,
+        "peerOverlapRatio": 62,
+        "crowdingMomentum30d": 5.8
+      },
+      "crowdingInterpretation": "Typical",
+      "factorsTop5": [
+        { "name": "Credit", "percentile": 91 },
+        { "name": "Carry", "percentile": 86 },
+        { "name": "Duration", "percentile": 79 },
+        { "name": "Value", "percentile": 72 },
+        { "name": "Momentum", "percentile": 66 }
+      ],
+      "dispersionSnapshot": [
+        { "factor": "Credit", "dispersionIndex": 0.18 },
+        { "factor": "Carry", "dispersionIndex": 0.24 },
+        { "factor": "Duration", "dispersionIndex": 0.3 }
+      ],
+      "trendCrowding": [66, 66.8, 67.6, 68.4, 69.2, 70, 70.8, 71.6, 72.4, 73.2, 74, 74.5, 75, 75.5, 76, 75.6, 75.2, 74.8, 75.2, 75.6, 76, 75.6, 75.2, 75.5, 75.8, 76, 75.6, 75.2, 75.5, 76],
+      "trendPsi": [0.78, 0.785, 0.79, 0.795, 0.8, 0.805, 0.81, 0.815, 0.82, 0.825, 0.83, 0.835, 0.84, 0.838, 0.835, 0.832, 0.835, 0.838, 0.84, 0.838, 0.835, 0.838, 0.84, 0.838, 0.835, 0.838, 0.84, 0.838, 0.835, 0.84]
+    },
+    {
+      "id": "rob-ma-1",
+      "name": "Risk Parity",
+      "cohortSize": 12,
+      "confidence": "Robust",
+      "assetClass": "Multi-Asset",
+      "aum": 4200,
+      "confidenceLabel": "Robust",
+      "kpis": {
+        "crowdingScore": 68,
+        "psi": 0.78,
+        "peerOverlapRatio": 52,
+        "crowdingMomentum30d": 2.1
+      },
+      "crowdingInterpretation": "Typical",
+      "factorsTop5": [
+        { "name": "Duration", "percentile": 85 },
+        { "name": "Low Vol", "percentile": 78 },
+        { "name": "Momentum", "percentile": 72 },
+        { "name": "Value", "percentile": 65 },
+        { "name": "Quality", "percentile": 58 }
+      ],
+      "dispersionSnapshot": [
+        { "factor": "Duration", "dispersionIndex": 0.22 },
+        { "factor": "Low Vol", "dispersionIndex": 0.28 },
+        { "factor": "Momentum", "dispersionIndex": 0.34 }
+      ],
+      "trendCrowding": [64, 64.4, 64.8, 65.2, 65.6, 66, 66.4, 66.8, 67.2, 67.6, 68, 67.6, 67.2, 66.8, 67.2, 67.6, 68, 67.6, 67.2, 67.5, 67.8, 68, 67.6, 67.2, 67.5, 67.8, 68, 67.6, 67.3, 68],
+      "trendPsi": [0.74, 0.745, 0.75, 0.755, 0.76, 0.765, 0.77, 0.775, 0.78, 0.778, 0.775, 0.772, 0.775, 0.778, 0.78, 0.778, 0.775, 0.778, 0.78, 0.778, 0.775, 0.778, 0.78, 0.778, 0.775, 0.778, 0.78, 0.778, 0.775, 0.78]
+    },
+    {
+      "id": "rob-alt-1",
+      "name": "CTA Trend Following",
+      "cohortSize": 9,
+      "confidence": "Robust",
+      "assetClass": "Alternatives",
+      "aum": 3800,
+      "confidenceLabel": "Robust",
+      "kpis": {
+        "crowdingScore": 82,
+        "psi": 0.87,
+        "peerOverlapRatio": 68,
+        "crowdingMomentum30d": 7.4
+      },
+      "crowdingInterpretation": "Highly crowded",
+      "factorsTop5": [
+        { "name": "Momentum", "percentile": 97 },
+        { "name": "Carry", "percentile": 89 },
+        { "name": "Value", "percentile": 82 },
+        { "name": "Low Vol", "percentile": 76 },
+        { "name": "Quality", "percentile": 69 }
+      ],
+      "dispersionSnapshot": [
+        { "factor": "Momentum", "dispersionIndex": 0.11 },
+        { "factor": "Carry", "dispersionIndex": 0.18 },
+        { "factor": "Value", "dispersionIndex": 0.24 }
+      ],
+      "trendCrowding": [72, 72.8, 73.6, 74.4, 75.2, 76, 76.8, 77.6, 78.4, 79.2, 80, 80.5, 81, 81.5, 82, 81.6, 81.2, 80.8, 81.2, 81.6, 82, 81.6, 81.2, 81.5, 81.8, 82, 81.6, 81.2, 81.5, 82],
+      "trendPsi": [0.82, 0.825, 0.83, 0.835, 0.84, 0.845, 0.85, 0.855, 0.86, 0.865, 0.87, 0.868, 0.865, 0.862, 0.865, 0.868, 0.87, 0.868, 0.865, 0.868, 0.87, 0.868, 0.865, 0.868, 0.87, 0.868, 0.865, 0.868, 0.87, 0.87]
     }
   ]
 }

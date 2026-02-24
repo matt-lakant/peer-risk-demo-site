@@ -50,6 +50,24 @@
     return "badge-success";
   }
 
+  function getCrowdingScore(p) {
+    var t = p.trendCrowding;
+    if (t && t.length > 0) return t[t.length - 1];
+    return p.kpis && p.kpis.crowdingScore != null ? p.kpis.crowdingScore : null;
+  }
+
+  function getPsi(p) {
+    var t = p.trendPsi;
+    if (t && t.length > 0) return t[t.length - 1];
+    return p.kpis && p.kpis.psi != null ? p.kpis.psi : null;
+  }
+
+  function getCrowdingMomentum(p) {
+    var t = p.trendCrowding;
+    if (t && t.length > 1) return Math.round((t[t.length - 1] - t[0]) * 10) / 10;
+    return p.kpis && p.kpis.crowdingMomentum30d != null ? p.kpis.crowdingMomentum30d : null;
+  }
+
   function drawChart(canvasId, data, color) {
     var canvas = byId(canvasId);
     if (!canvas || !data || data.length === 0) return;
@@ -176,8 +194,12 @@
     var chartW = w - padding.left - padding.right;
     var chartH = h - padding.top - padding.bottom;
 
-    var psiVals = portfolios.map(function (p) { return p.kpis && p.kpis.psi != null ? p.kpis.psi : 0; });
-    var yVals = portfolios.map(function (p) { return p.kpis && p.kpis[yKey] != null ? p.kpis[yKey] : 0; });
+    var psiVals = portfolios.map(function (p) { var v = getPsi(p); return v != null ? v : 0; });
+    var yVals = portfolios.map(function (p) {
+      if (yKey === "crowdingScore") { var v = getCrowdingScore(p); return v != null ? v : 0; }
+      if (yKey === "crowdingMomentum30d") { var m = getCrowdingMomentum(p); return m != null ? m : 0; }
+      return p.kpis && p.kpis[yKey] != null ? p.kpis[yKey] : 0;
+    });
     var psiMin = Math.min.apply(null, psiVals);
     var psiMax = Math.max.apply(null, psiVals);
     var yMin = Math.min.apply(null, yVals);
@@ -227,10 +249,42 @@
     ctx.lineWidth = 1;
     ctx.strokeRect(padding.left, padding.top, chartW, chartH);
 
+    if ((yKey === "crowdingScore" || yKey === "crowdingMomentum30d") && psiVals.length > 1) {
+      var n = psiVals.length;
+      var sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+      for (var i = 0; i < n; i++) {
+        sumX += psiVals[i];
+        sumY += yVals[i];
+        sumXY += psiVals[i] * yVals[i];
+        sumX2 += psiVals[i] * psiVals[i];
+      }
+      var denom = n * sumX2 - sumX * sumX;
+      var m = denom !== 0 ? (n * sumXY - sumX * sumY) / denom : 0;
+      var b = (sumY - m * sumX) / n;
+      var x1 = psiMin;
+      var x2 = psiMax;
+      var y1 = m * x1 + b;
+      var y2 = m * x2 + b;
+      var lineX1 = padding.left + (x1 - psiMin) / psiRange * chartW;
+      var lineY1 = padding.top + chartH - (y1 - yMin) / yRange * chartH;
+      var lineX2 = padding.left + (x2 - psiMin) / psiRange * chartW;
+      var lineY2 = padding.top + chartH - (y2 - yMin) / yRange * chartH;
+      ctx.beginPath();
+      ctx.moveTo(lineX1, lineY1);
+      ctx.lineTo(lineX2, lineY2);
+      ctx.strokeStyle = "rgba(210, 153, 34, 0.8)";
+      ctx.lineWidth = 2;
+      ctx.setLineDash([4, 4]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
     var bubbles = [];
     portfolios.forEach(function (p) {
-      var psi = p.kpis && p.kpis.psi != null ? p.kpis.psi : 0;
-      var yVal = p.kpis && p.kpis[yKey] != null ? p.kpis[yKey] : 0;
+      var psi = getPsi(p);
+      var yVal = yKey === "crowdingScore" ? getCrowdingScore(p) : (yKey === "crowdingMomentum30d" ? getCrowdingMomentum(p) : (p.kpis && p.kpis[yKey]));
+      psi = psi != null ? psi : 0;
+      yVal = yVal != null ? yVal : 0;
       var aum = p.aum != null ? p.aum : aumMin;
       var r = minRadius + (Math.sqrt(aum) - Math.sqrt(aumMin)) / (Math.sqrt(aumMax) - Math.sqrt(aumMin) || 1) * (maxRadius - minRadius);
       var x = padding.left + (psi - psiMin) / psiRange * chartW;
@@ -259,8 +313,8 @@
   }
 
   function drawScatterChart(portfolios, selectedId, onSelect) {
-    drawScatterChartOne("scatterChart", portfolios, selectedId, "crowdingScore", "Crowding Score", function (p) { return "Crowding: " + (p.kpis.crowdingScore || 0); });
-    drawScatterChartOne("scatterChart2", portfolios, selectedId, "crowdingMomentum30d", "Crowding Momentum", function (p) { var m = p.kpis.crowdingMomentum30d; return "Momentum: " + (m >= 0 ? "+" : "") + (m || 0).toFixed(1); });
+    drawScatterChartOne("scatterChart", portfolios, selectedId, "crowdingScore", "Crowding Score", function (p) { var c = getCrowdingScore(p); return "Crowding: " + (c != null ? c : 0); });
+    drawScatterChartOne("scatterChart2", portfolios, selectedId, "crowdingMomentum30d", "Crowding Momentum", function (p) { var m = getCrowdingMomentum(p); return "Momentum: " + (m != null ? (m >= 0 ? "+" : "") + m.toFixed(1) : "0"); });
   }
 
   function setupScatterClick(onSelect) {
@@ -300,7 +354,7 @@
             var tt = byId("tooltip");
             if (tt) {
               var yStr = typeof b.tooltipYFn === "function" ? b.tooltipYFn(b.p) : "";
-              tt.textContent = b.p.name + " — PSI: " + (b.p.kpis.psi || 0).toFixed(2) + ", " + yStr + ", AUM: " + formatAum(b.p.aum);
+              tt.textContent = b.p.name + " — PSI: " + (getPsi(b.p) != null ? getPsi(b.p).toFixed(2) : "—") + ", " + yStr + ", AUM: " + formatAum(b.p.aum);
               tt.classList.add("visible");
               tt.style.left = (ev.clientX + 12) + "px";
               tt.style.top = (ev.clientY + 12) + "px";
@@ -387,15 +441,18 @@
       var tr = document.createElement("tr");
       tr.dataset.portfolioId = p.id;
       tr.className = selectedId === p.id ? "selected" : "";
+      var crowding = getCrowdingScore(p);
+      var psi = getPsi(p);
+      var momentum = getCrowdingMomentum(p);
       tr.innerHTML =
         "<td>" + (p.name || "") + "</td>" +
         "<td><span class=\"badge badge-" + (getBadgeClass(p).replace("badge-", "")) + "\">" + getConfidence(p) + "</span></td>" +
         "<td>" + (p.assetClass || "") + "</td>" +
         "<td>" + formatAum(p.aum) + "</td>" +
-        "<td>" + (p.kpis.crowdingScore != null ? p.kpis.crowdingScore : "—") + "</td>" +
-        "<td>" + (p.kpis.psi != null ? p.kpis.psi.toFixed(2) : "—") + "</td>" +
-        "<td>" + (p.kpis.peerOverlapRatio != null ? p.kpis.peerOverlapRatio + "%" : "—") + "</td>" +
-        "<td>" + (p.kpis.crowdingMomentum30d != null ? (p.kpis.crowdingMomentum30d >= 0 ? "+" : "") + p.kpis.crowdingMomentum30d.toFixed(1) : "—") + "</td>";
+        "<td>" + (crowding != null ? crowding : "—") + "</td>" +
+        "<td>" + (psi != null ? psi.toFixed(2) : "—") + "</td>" +
+        "<td>" + (p.kpis && p.kpis.peerOverlapRatio != null ? p.kpis.peerOverlapRatio + "%" : "—") + "</td>" +
+        "<td>" + (momentum != null ? (momentum >= 0 ? "+" : "") + momentum.toFixed(1) : "—") + "</td>";
       tbody.appendChild(tr);
     });
   }
@@ -420,14 +477,14 @@
         return dir * va.localeCompare(vb);
       }
       if (key === "crowdingScore") {
-        va = a.kpis && a.kpis.crowdingScore != null ? a.kpis.crowdingScore : -1;
-        vb = b.kpis && b.kpis.crowdingScore != null ? b.kpis.crowdingScore : -1;
-        return dir * (va - vb);
+        va = getCrowdingScore(a);
+        vb = getCrowdingScore(b);
+        return dir * ((va != null ? va : -1) - (vb != null ? vb : -1));
       }
       if (key === "psi") {
-        va = a.kpis && a.kpis.psi != null ? a.kpis.psi : -1;
-        vb = b.kpis && b.kpis.psi != null ? b.kpis.psi : -1;
-        return dir * (va - vb);
+        va = getPsi(a);
+        vb = getPsi(b);
+        return dir * ((va != null ? va : -1) - (vb != null ? vb : -1));
       }
       if (key === "peerOverlapRatio") {
         va = a.kpis && a.kpis.peerOverlapRatio != null ? a.kpis.peerOverlapRatio : -1;
@@ -435,9 +492,9 @@
         return dir * (va - vb);
       }
       if (key === "crowdingMomentum30d") {
-        va = a.kpis && a.kpis.crowdingMomentum30d != null ? a.kpis.crowdingMomentum30d : -999;
-        vb = b.kpis && b.kpis.crowdingMomentum30d != null ? b.kpis.crowdingMomentum30d : -999;
-        return dir * (va - vb);
+        va = getCrowdingMomentum(a);
+        vb = getCrowdingMomentum(b);
+        return dir * ((va != null ? va : -999) - (vb != null ? vb : -999));
       }
       if (key === "aum") {
         va = a.aum != null ? a.aum : -1;
